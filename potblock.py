@@ -1,7 +1,7 @@
 import csv
 
 potbyblock = dict()
-with open('potholes.csv') as f:
+with open('LearnPyData/data/potholes.csv') as f:
     for row in csv.DictReader(f):
         addr = row['STREET ADDRESS'] 
         try:
@@ -14,6 +14,7 @@ with open('potholes.csv') as f:
             addparts[0] = str(int(addparts[0])//100*100)
         except IndexError:
             print('No address:', addr)
+            continue
         except ValueError:
             addparts.insert(0, '0')
         addr = ' '.join(addparts)
@@ -26,11 +27,43 @@ lastblock = None
 laststreet = None
 blockrun = 0
 blocklen = 0
-biggestrun = 0
-for b in sorted((k.split() for k in potbyblock.keys()), key=lambda x: (x[1:], x[0])):
+biggestrun = (0, [])
+currentrun = []
+for b in sorted((k.split() for k in potbyblock.keys()), key=lambda x: (x[1:], int(x[0]))):
     thisstreet = ' '.join(b[1:])
     blocknum = int(b[0])
+    addr = ' '.join(b)
     if thisstreet != laststreet:
-        blockrun = 0
+        if blockrun > biggestrun[0]:
+            biggestrun = (blockrun, currentrun)
+        currentrun = [addr]
+        blockrun = potbyblock[addr]
+        lastblock = blocknum
+        laststreet = thisstreet
+        blocklen = 1
+        continue
+    try:
+        blockdiff = (blocknum-lastblock)/100 
+    except TypeError:
+        blockdiff = 0
+    if blockdiff + blocklen > 10:
+        if blockrun > biggestrun[0]:
+            biggestrun = (blockrun, currentrun)
+        blockrun = potbyblock[addr]
+        currentrun = [addr]
+        lastblock = blocknum
+        laststreet = thisstreet
+        blocklen = 1
+    else:
+        blocklen += blockdiff
+        currentrun.append(addr)
+        blockrun += potbyblock[addr]
+        if blockrun > biggestrun[0]:
+            biggestrun = (blockrun, currentrun)
+        lastblock = blocknum
+
+
+print(biggestrun)
+
     
 
