@@ -4,7 +4,6 @@
 #
 #    pip-compile --output-file requirements.txt requirements.in
 #
-
 backports.shutil-get-terminal-size==1.0.0  # via ipython
 cycler==0.10.0            # via matplotlib
 decorator==4.0.10         # via ipython, traitlets
@@ -13,7 +12,6 @@ ipython==4.2.0
 matplotlib==1.5.1
 numpy==1.11.0
 pandas==0.18.1
-pathlib2==2.1.0           # via pickleshare
 pexpect==4.1.0            # via ipython
 pickleshare==0.7.2        # via ipython
 ptyprocess==0.5.1         # via pexpect
@@ -21,7 +19,7 @@ pyparsing==2.1.5          # via matplotlib
 python-dateutil==2.5.3    # via matplotlib, pandas
 pytz==2016.4              # via matplotlib, pandas
 simplegeneric==0.8.1      # via ipython
-six==1.10.0               # via cycler, pathlib2, python-dateutil
+six==1.10.0               # via cycler, python-dateutil
 traitlets==4.2.1          # via ipython
 
 # The following packages are commented out because they are
